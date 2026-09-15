@@ -122,6 +122,34 @@
   .tag{font-family:var(--mono);font-size:clamp(10px,.8vw,12px);font-weight:600;color:var(--teal);
     margin-top:auto;padding-top:clamp(12px,1.6vh,18px);letter-spacing:.03em}
 
+  /* ── journey diagram ── */
+  .journey{display:grid;gap:clamp(14px,2.2vh,26px);margin:0 0 clamp(24px,3.6vh,44px)}
+  .jrow{display:grid;grid-template-columns:clamp(74px,7vw,120px) 1fr;gap:clamp(14px,1.8vw,30px);align-items:center}
+  .jlab{font-family:var(--mono);font-size:clamp(10px,.82vw,12px);font-weight:600;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--muted)}
+  .jrow.after .jlab{color:var(--orange)}
+  .jtrack{display:flex;align-items:center;gap:clamp(8px,1.1vw,18px);flex-wrap:wrap}
+  .jbox{font-family:var(--serif);font-weight:700;color:var(--deep);background:var(--card);
+    border-radius:10px;padding:clamp(12px,1.4vw,20px) clamp(16px,1.9vw,28px);
+    font-size:clamp(15px,1.4vw,22px);line-height:1.1;white-space:nowrap}
+  .jbox.away{background:transparent;border:2px dashed var(--orange);color:var(--orange)}
+  .jarrow{color:var(--muted);font-size:clamp(16px,1.5vw,24px);flex:0 0 auto}
+  .jaway{font-family:var(--sans);font-size:clamp(10px,.8vw,12px);font-weight:900;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--orange);margin-left:4px}
+  .jhost{display:flex;align-items:center;gap:clamp(10px,1.2vw,18px);background:var(--card);border-radius:10px;
+    padding:clamp(10px,1.1vw,15px) clamp(12px,1.3vw,18px)}
+  .jhost .hname{font-family:var(--serif);font-weight:700;color:var(--deep);font-size:clamp(15px,1.4vw,22px);
+    padding-left:clamp(4px,.5vw,8px);white-space:nowrap}
+  .jnest{background:var(--teal);color:#fff;border-radius:7px;
+    padding:clamp(9px,1vw,14px) clamp(13px,1.5vw,22px);font-family:var(--serif);font-weight:700;
+    font-size:clamp(14px,1.25vw,20px);line-height:1.1;white-space:nowrap}
+
+  /* ── supporting strip ── */
+  .needs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.5vw,26px)}
+  .needs .n{border-top:2px solid var(--edge);padding-top:clamp(12px,1.6vh,18px)}
+  .needs .n h4{font-family:var(--serif);font-size:clamp(16px,1.4vw,22px);font-weight:700;color:var(--deep);margin:0 0 7px;line-height:1.14}
+  .needs .n p{font-size:clamp(12.5px,1.02vw,16px);line-height:1.45;margin:0}
+
   /* ── flow ── */
   .flow{position:relative}
   .flow .rail{position:absolute;top:calc(clamp(52px,5vw,74px) / 2);left:12.5%;right:12.5%;height:2px;background:var(--edge);z-index:0}
@@ -253,12 +281,12 @@
       <div class="arrow">&#10230;</div>
       <div class="ph two">
         <p class="when">Phase 2 &nbsp;&middot;&nbsp; After the pilot</p>
-        <p class="what">Scope on real usage</p>
+        <p class="what">Put Extern inside MindTap</p>
         <ul>
-          <li>Single sign-on, so there is no second password</li>
-          <li>A catalog your engine can query directly</li>
-          <li>Skills data flowing in both directions</li>
-          <li>Extern running inside MindTap</li>
+          <li>The externship runs in your platform. No third site</li>
+          <li>Students are already signed in</li>
+          <li>Your engine picks the right program</li>
+          <li>Skills data comes back to you</li>
         </ul>
       </div>
     </div>
@@ -414,33 +442,47 @@
 <!-- ══ 7 ══ -->
 <section id="s7" class="tint">
   <div class="inner">
-    <p class="eyebrow orange"><span class="chip two">Phase 2</span> After the pilot</p>
-    <h2>Four workstreams</h2>
-    <p class="sub">The map, not a schedule. Each one waits on a decision that is still open.</p>
-    <div class="grid c4">
-      <div class="card light">
-        <div class="dot">1</div>
-        <h3>Single sign-on</h3>
-        <p>Students arrive already logged in. No second password to create.</p>
-        <div class="need"><b>From you</b><span>Which identity provider.</span></div>
+    <p class="eyebrow orange"><span class="chip two">Phase 2</span> The longer-term goal</p>
+    <h2>Put the externship inside MindTap</h2>
+    <p class="note">Allie&rsquo;s point on the call: students already go from the LMS into MindTap, and Extern makes it a third platform. Phase&nbsp;2 removes that hop by embedding the externship in your page, so the student never leaves Cengage.</p>
+
+    <div class="journey">
+      <div class="jrow">
+        <span class="jlab">Today</span>
+        <div class="jtrack">
+          <span class="jbox">LMS</span>
+          <span class="jarrow">&#8594;</span>
+          <span class="jbox">MindTap</span>
+          <span class="jarrow">&#8594;</span>
+          <span class="jbox away">Extern</span>
+          <span class="jaway">leaves your platform</span>
+        </div>
       </div>
-      <div class="card light">
-        <div class="dot">2</div>
-        <h3>Catalog feed</h3>
-        <p>Your engine asks ours for the programs that fit a department and a date.</p>
-        <div class="need"><b>From you</b><span>Which filters you query on.</span></div>
+      <div class="jrow after">
+        <span class="jlab">Phase 2</span>
+        <div class="jtrack">
+          <span class="jbox">LMS</span>
+          <span class="jarrow">&#8594;</span>
+          <span class="jhost">
+            <span class="hname">MindTap</span>
+            <span class="jnest">Extern, embedded</span>
+          </span>
+        </div>
       </div>
-      <div class="card light">
-        <div class="dot">3</div>
-        <h3>Skills exchange</h3>
-        <p>The skills a program builds go in. The skills a student demonstrated come back.</p>
-        <div class="need"><b>From you</b><span>Your competency schema.</span></div>
+    </div>
+
+    <div class="needs">
+      <div class="n">
+        <h4>Sign-in inside the frame</h4>
+        <p>Students arrive already logged in, with no second password. The approach depends on whether it is embedded or launched, as Vijay noted.</p>
       </div>
-      <div class="card light">
-        <div class="dot">4</div>
-        <h3>Where it lives</h3>
-        <p>Extern running inside MindTap, or launched from it.</p>
-        <div class="need"><b>From you</b><span>Your UX research outcome.</span></div>
+      <div class="n">
+        <h4>The catalog feed</h4>
+        <p>So the right program appears in the right course, chosen by your recommendation engine rather than by browsing.</p>
+      </div>
+      <div class="n">
+        <h4>Skills data back</h4>
+        <p>What the student demonstrated returns to your engine, closing the loop you described.</p>
       </div>
     </div>
   </div>
