@@ -145,7 +145,7 @@
     font-size:clamp(14px,1.25vw,20px);line-height:1.1;white-space:nowrap}
 
   /* ── supporting strip ── */
-  .needs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.5vw,26px)}
+  .needs{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.5vw,26px)}
   .needs .n{border-top:2px solid var(--edge);padding-top:clamp(12px,1.6vh,18px)}
   .needs .n h4{font-family:var(--serif);font-size:clamp(16px,1.4vw,22px);font-weight:700;color:var(--deep);margin:0 0 7px;line-height:1.14}
   .needs .n p{font-size:clamp(12.5px,1.02vw,16px);line-height:1.45;margin:0}
@@ -275,7 +275,7 @@
           <li>You send a student list (names and emails)</li>
           <li>We open their accounts</li>
           <li>Progress reports come back to the instructor</li>
-          <li>Nothing gets built on either side</li>
+          <li>A read-only catalog API, if you want it</li>
         </ul>
       </div>
       <div class="arrow">&#10230;</div>
@@ -306,9 +306,9 @@
         <p><b>Learning Tools Interoperability.</b> The standard for plugging an outside tool into a course platform. On our roadmap.</p>
       </div>
       <div class="card">
-        <span class="pill part">Partly</span>
+        <span class="pill no">Consumer only</span>
         <h3>Single sign-on</h3>
-        <p>Google login works today. The Okta-style login higher ed uses is next.</p>
+        <p>We have Google login, which is not the model higher ed runs on. Institutional sign-on comes with the Phase&nbsp;2 work below.</p>
       </div>
       <div class="card">
         <span class="pill no">None</span>
@@ -373,8 +373,8 @@
         <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
           <rect x="7" y="6" width="34" height="36" rx="3"/><path d="M14 16h20M14 24h20M14 32h13"/></svg></div>
         <h3>Catalog</h3>
-        <p>Every program, with skills, length and company.</p>
-        <p class="tag">Document or data feed</p>
+        <p>Every active program, with skills, length and company.</p>
+        <p class="tag">Document or read-only API</p>
       </div>
       <div class="card">
         <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
@@ -407,10 +407,10 @@
   <div class="inner">
     <p class="eyebrow"><span class="chip">Phase 1</span> Program metadata</p>
     <h2>The catalog, as data</h2>
-    <p class="note">A proposed response shape, not a live contract. This is what we would build to if you would rather ingest the catalog than read it.</p>
+    <p class="note">Available for the pilot. A read-only endpoint returning currently active programs, in this shape, if you would rather ingest the catalog than read it.</p>
     <div class="split">
       <div>
-        <p class="label">Proposed &middot; one program</p>
+        <p class="label">One active program</p>
 <pre>{
   <span class="k">"title"</span>: <span class="s">"Data Analytics Externship"</span>,
   <span class="k">"company"</span>: <span class="s">"Breaking Games"</span>,
@@ -473,12 +473,16 @@
 
     <div class="needs">
       <div class="n">
-        <h4>Sign-in inside the frame</h4>
-        <p>Students arrive already logged in, with no second password. The approach depends on whether it is embedded or launched, as Vijay noted.</p>
+        <h4>Shared sign-in</h4>
+        <p>Students arrive already authenticated through your identity provider, with no separate Extern password.</p>
       </div>
       <div class="n">
-        <h4>The catalog feed</h4>
-        <p>So the right program appears in the right course, chosen by your recommendation engine rather than by browsing.</p>
+        <h4>Catalog feed</h4>
+        <p>So the right program appears in the right course, chosen by your engine rather than by browsing.</p>
+      </div>
+      <div class="n">
+        <h4>Enrolment</h4>
+        <p>Your system places a named student into a named program directly. This is what replaces the student list.</p>
       </div>
       <div class="n">
         <h4>Skills data back</h4>
