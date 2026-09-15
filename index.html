@@ -8,541 +8,534 @@
 <title>Extern × Cengage — Integration Phasing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --deep:#0f3d4c;         /* headline teal */
-    --deep-bg:#0d3845;      /* dark slide ground */
-    --teal:#1a6d8e;         /* eyebrow / accent */
-    --teal-soft:#4a90a8;
-    --orange:#d9541e;       /* contrast accent */
-    --card:#eaf1f2;
-    --card-edge:#d7e4e6;
-    --body:#3f4d55;
-    --muted:#7d8c94;
-    --paper:#ffffff;
-    --ground:#eef1f3;
-    --green:#3f9a54;
-    --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+    --deep:#0f3d4c; --deep-bg:#0d3845;
+    --teal:#1a6d8e; --teal-soft:#4a90a8;
+    --orange:#d9541e;
+    --card:#e7eff1; --edge:#d2e1e4;
+    --body:#3f4d55; --muted:#7d8c94;
+    --paper:#fff; --tint:#f4f8f9; --green:#3f9a54;
+    --serif:"Playfair Display",Georgia,serif;
     --sans:"Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --gut:clamp(26px,6vw,110px);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{font-family:var(--sans);background:var(--ground);color:var(--body);-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+  body{margin:0;font-family:var(--sans);color:var(--body);background:var(--paper);-webkit-font-smoothing:antialiased}
 
-  .slide{
-    display:none;position:relative;overflow:hidden;
-    background:var(--paper);
-    width:min(1280px,96vw);
-    aspect-ratio:16/9;
-    min-height:520px;
-    margin:14px auto;
-    padding:46px 62px 66px;
-    border-radius:8px;
-    box-shadow:0 1px 3px rgba(15,61,76,.10),0 16px 48px rgba(15,61,76,.10);
-  }
-  .slide.active{display:flex;flex-direction:column;justify-content:center}
-  .slide.dark{background:var(--deep-bg);color:#dce9ec}
-  .slide > *{flex:0 0 auto}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--orange);z-index:90;transition:width .12s linear}
 
-  /* ---- shared type ---- */
-  .eyebrow{
-    font-size:11.5px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;
-    color:var(--teal);margin:0 0 12px;
+  section{
+    position:relative;overflow:hidden;
+    min-height:100vh;min-height:100dvh;
+    padding:10vh var(--gut) 12vh;
+    display:flex;flex-direction:column;justify-content:center;
+    scroll-snap-align:start;background:var(--paper);
   }
+  section.tint{background:var(--tint)}
+  section.dark{background:var(--deep-bg);color:#c6dde2}
+  .inner{width:100%;max-width:1320px;margin:0 auto}
+
+  .eyebrow{font-size:clamp(10.5px,.82vw,12.5px);font-weight:900;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--teal);margin:0 0 16px}
   .dark .eyebrow{color:var(--teal-soft)}
-  .eyebrow .sep{opacity:.5;margin:0 6px}
   .eyebrow.orange{color:var(--orange)}
+  .eyebrow .sep{opacity:.5;margin:0 7px}
 
-  h1{font-family:var(--serif);font-weight:700;font-variant-numeric:lining-nums;color:var(--deep);font-size:clamp(30px,3.3vw,44px);line-height:1.1;margin:0 0 14px;letter-spacing:-.005em}
+  h1{font-family:var(--serif);font-weight:700;font-variant-numeric:lining-nums;color:var(--deep);
+    font-size:clamp(34px,4.4vw,64px);line-height:1.06;margin:0 0 20px;letter-spacing:-.01em}
   .dark h1{color:#fff}
-  h2{font-family:var(--serif);font-weight:700;font-variant-numeric:lining-nums;color:var(--deep);font-size:clamp(26px,2.6vw,36px);line-height:1.14;margin:0 0 12px}
-  .dek{font-size:clamp(13.5px,1.15vw,16px);line-height:1.5;color:var(--body);margin:0 0 26px;max-width:82ch}
-  .dek b{color:var(--deep);font-weight:700}
+  h2{font-family:var(--serif);font-weight:700;font-variant-numeric:lining-nums;color:var(--deep);
+    font-size:clamp(28px,3.4vw,50px);line-height:1.1;margin:0 0 clamp(20px,3.2vh,40px)}
+  .dark h2{color:#fff}
+  .sub{font-size:clamp(14px,1.25vw,19px);line-height:1.45;color:var(--muted);
+    margin:-8px 0 clamp(24px,3.6vh,46px);max-width:62ch}
+  .dark .sub{color:#8fb4bd}
 
-  .foot{
-    position:absolute;left:62px;right:62px;bottom:24px;
-    display:flex;justify-content:space-between;align-items:center;
-    font-size:11px;color:var(--muted);letter-spacing:.01em;
-  }
-  .dark .foot{color:rgba(220,233,236,.5)}
+  .foot{position:absolute;left:var(--gut);right:var(--gut);bottom:clamp(20px,3.6vh,38px);
+    display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted)}
+  .dark .foot{color:rgba(198,221,226,.4)}
   .foot .num{font-family:var(--mono);font-weight:600}
 
-  /* ---- 1 · title ---- */
-  .title-wrap{position:relative;z-index:2;flex:1 1 auto;display:flex;flex-direction:column;justify-content:center}
-  .rings{position:absolute;right:-90px;top:-120px;width:640px;height:640px;z-index:1;opacity:.9;pointer-events:none}
-  .title-wrap h1{font-size:clamp(38px,4.6vw,64px);max-width:17ch;margin-bottom:18px}
-  .title-sub{font-size:clamp(15px,1.4vw,19px);color:#b9d2d8;max-width:52ch;line-height:1.5;margin:0}
-  .title-by{margin-top:auto;padding-top:26px}
-  .title-by .who{font-size:14px;color:#dce9ec;font-weight:700}
-  .title-by .when{font-size:12.5px;color:rgba(220,233,236,.55);margin-top:3px}
+  /* ── title ── */
+  .rings{position:absolute;right:-12vw;top:-24vh;width:min(84vh,940px);height:min(84vh,940px);z-index:0;pointer-events:none}
+  #s1 .inner{position:relative;z-index:2}
+  #s1 h1{font-size:clamp(42px,6.2vw,92px);max-width:16ch;margin-bottom:26px}
+  .title-sub{font-size:clamp(17px,1.7vw,25px);color:#a9cad2;max-width:40ch;line-height:1.4;margin:0 0 clamp(34px,7vh,78px)}
+  .title-by{padding-top:24px;border-top:1px solid rgba(198,221,226,.22);display:inline-block}
+  .title-by .who{font-size:clamp(13px,1.05vw,16px);color:#fff;font-weight:700}
+  .title-by .when{font-size:clamp(12px,.95vw,14px);color:rgba(198,221,226,.5);margin-top:5px}
+  .hint{position:absolute;left:var(--gut);bottom:clamp(60px,9vh,100px);z-index:2;
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:rgba(198,221,226,.4)}
+  .hint .chev{display:block;font-size:18px;margin-top:6px;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-  /* ---- phase band (slide 2) ---- */
+  /* ── statement + band ── */
   .statement{font-family:var(--serif);font-weight:600;font-variant-numeric:lining-nums;color:var(--deep);
-    font-size:clamp(24px,2.5vw,34px);line-height:1.26;max-width:26ch;margin:0 0 30px}
+    font-size:clamp(30px,4vw,60px);line-height:1.13;max-width:24ch;margin:0 0 clamp(32px,5vh,64px)}
   .statement em{font-style:normal;color:var(--orange)}
-  .band{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;margin-top:4px}
-  .band .ph{background:var(--card);border-radius:8px;padding:20px 24px;border:1px solid var(--card-edge)}
-  .band .ph.two{background:#fff;border-style:dashed}
-  .band .arrow{display:flex;align-items:center;justify-content:center;width:64px;color:var(--teal);font-size:26px}
-  .band .when{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin:0 0 7px}
+  .band{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch}
+  .band .ph{background:var(--card);border-radius:12px;padding:clamp(22px,2.6vw,38px)}
+  .band .ph.two{background:transparent;border:1px dashed var(--edge)}
+  .band .arrow{display:flex;align-items:center;justify-content:center;width:clamp(46px,6vw,96px);
+    color:var(--teal);font-size:clamp(24px,2.6vw,38px)}
+  .band .when{font-family:var(--mono);font-size:clamp(10px,.82vw,12px);font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--teal);margin:0 0 10px}
   .band .ph.two .when{color:var(--orange)}
-  .band .what{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--deep);margin:0 0 9px;line-height:1.2}
+  .band .what{font-family:var(--serif);font-size:clamp(22px,2.2vw,34px);font-weight:700;color:var(--deep);margin:0 0 16px;line-height:1.12}
   .band ul{margin:0;padding:0;list-style:none}
-  .band li{font-size:13px;line-height:1.5;color:var(--body);padding:3px 0 3px 15px;position:relative}
-  .band li:before{content:"";position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--teal)}
+  .band li{font-size:clamp(14px,1.15vw,18px);line-height:1.45;padding:6px 0 6px 19px;position:relative}
+  .band li:before{content:"";position:absolute;left:0;top:14px;width:7px;height:7px;border-radius:50%;background:var(--teal)}
   .band .ph.two li:before{background:var(--orange)}
 
-  /* ---- card grid ---- */
-  .grid{display:grid;gap:16px}
-  .grid.c2{grid-template-columns:repeat(2,1fr)}
+  /* ── cards ── */
+  .grid{display:grid;gap:clamp(12px,1.4vw,24px)}
   .grid.c4{grid-template-columns:repeat(4,1fr)}
-  .card{background:var(--card);border-radius:8px;padding:20px 22px;position:relative}
-  .card.light{background:#fff;border:1px solid var(--card-edge);display:flex;flex-direction:column}
-  .card .dot{
-    width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-family:var(--mono);font-size:14px;font-weight:600;margin-bottom:14px;
-  }
-  .card .dot.orange{background:var(--orange)}
-  .card h3{font-family:var(--serif);font-variant-numeric:lining-nums;font-size:18px;font-weight:700;color:var(--deep);margin:0 0 8px;line-height:1.2}
-  .card p{font-size:13.5px;line-height:1.52;color:var(--body);margin:0}
-  .card .meta{font-size:12px;font-style:italic;color:var(--teal);margin-top:11px;line-height:1.45}
+  .card{background:var(--card);border-radius:12px;padding:clamp(20px,2.2vw,32px);display:flex;flex-direction:column}
+  .card.light{background:var(--paper);border:1px solid var(--edge)}
+  section.tint .card.light{background:var(--paper)}
+  .card h3{font-family:var(--serif);font-variant-numeric:lining-nums;font-size:clamp(19px,1.8vw,28px);
+    font-weight:700;color:var(--deep);margin:0 0 10px;line-height:1.12}
+  .card p{font-size:clamp(13.5px,1.08vw,17px);line-height:1.45;margin:0}
+  .card .dot{width:clamp(34px,3.2vw,46px);height:clamp(34px,3.2vw,46px);border-radius:50%;
+    background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:clamp(14px,1.15vw,18px);font-weight:600;margin-bottom:clamp(14px,1.8vh,22px)}
 
-  .pill{
-    display:inline-block;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;
-    padding:4px 10px;border-radius:99px;margin-bottom:11px;
-  }
-  .pill.no{background:#fbe6de;color:var(--orange)}
-  .pill.yes{background:#dcefe1;color:var(--green)}
-  .pill.part{background:#e2edf2;color:var(--teal)}
+  .pill{display:inline-block;font-size:clamp(9.5px,.74vw,11px);font-weight:900;letter-spacing:.1em;
+    text-transform:uppercase;padding:6px 12px;border-radius:99px;margin-bottom:16px;align-self:flex-start}
+  .pill.no{background:#fbe3d9;color:var(--orange)}
+  .pill.yes{background:#d9eddf;color:var(--green)}
+  .pill.part{background:#dee9ef;color:var(--teal)}
 
-  /* ---- flow diagram ---- */
-  .flow{position:relative;margin:10px 0 24px}
-  .flow .rail{position:absolute;top:21px;left:12.5%;right:12.5%;height:2px;background:var(--card-edge);z-index:0}
-  .flow .steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  /* ── icon cards ── */
+  .ico{width:clamp(38px,3.4vw,50px);height:clamp(38px,3.4vw,50px);margin-bottom:clamp(14px,1.8vh,22px)}
+  .ico svg{width:100%;height:100%;display:block}
+  .tag{font-family:var(--mono);font-size:clamp(10px,.8vw,12px);font-weight:600;color:var(--teal);
+    margin-top:auto;padding-top:clamp(12px,1.6vh,18px);letter-spacing:.03em}
+
+  /* ── flow ── */
+  .flow{position:relative}
+  .flow .rail{position:absolute;top:calc(clamp(52px,5vw,74px) / 2);left:12.5%;right:12.5%;height:2px;background:var(--edge);z-index:0}
+  .flow .steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.8vw,30px)}
   .flow .s{text-align:center}
-  .flow .s .num{
-    width:44px;height:44px;border-radius:50%;background:var(--teal);color:#fff;
-    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
-    font-family:var(--mono);font-size:15px;font-weight:600;
-    box-shadow:0 0 0 7px var(--paper);
-  }
-  .flow .s h3{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--deep);margin:0 0 7px}
-  .flow .s p{font-size:13.5px;line-height:1.5;color:var(--body);margin:0;padding:0 4px}
+  .flow .s .num{width:clamp(52px,5vw,74px);height:clamp(52px,5vw,74px);border-radius:50%;
+    background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;
+    margin:0 auto clamp(16px,2.2vh,26px);font-family:var(--mono);font-size:clamp(18px,1.6vw,26px);font-weight:600;
+    box-shadow:0 0 0 10px var(--paper)}
+  section.tint .flow .s .num{box-shadow:0 0 0 10px var(--tint)}
+  .flow .s h3{font-family:var(--serif);font-size:clamp(19px,1.8vw,28px);font-weight:700;color:var(--deep);margin:0 0 8px;line-height:1.14}
+  .flow .s p{font-size:clamp(13.5px,1.08vw,17px);line-height:1.42;margin:0}
   .flow .s p b{color:var(--deep)}
 
-  .callout{
-    background:var(--card);border-left:3px solid var(--teal);
-    padding:16px 22px;border-radius:0 7px 7px 0;font-size:13.5px;line-height:1.55;
-  }
+  .callout{background:var(--card);border-left:4px solid var(--teal);
+    padding:clamp(18px,2vw,28px) clamp(20px,2.2vw,32px);border-radius:0 10px 10px 0;
+    font-size:clamp(14px,1.2vw,19px);line-height:1.45;margin-top:clamp(26px,4vh,52px)}
   .callout b{color:var(--deep);font-weight:700}
-  .callout.orange{border-left-color:var(--orange)}
 
-  /* ---- receives table-as-cards ---- */
-  .rows{display:grid;gap:10px}
-  .row{
-    display:grid;grid-template-columns:200px 1fr 1fr;gap:26px;align-items:start;
-    background:var(--card);border-radius:8px;padding:16px 22px;
-  }
-  .row .t{font-family:var(--serif);font-size:16.5px;font-weight:700;color:var(--deep);line-height:1.25}
-  .row .d{font-size:13px;line-height:1.5;color:var(--body)}
-  .row .f{font-size:13px;line-height:1.5;color:var(--deep)}
-  .rowhead{display:grid;grid-template-columns:200px 1fr 1fr;gap:26px;padding:0 22px 8px;
-    font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-
-  /* ---- split panel ---- */
-  .split{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:start}
-  .panel-label{font-size:10.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
-  .panel-label.orange{color:var(--orange)}
-  pre{
-    background:#0f3038;color:#d7e6ea;border-radius:8px;padding:18px 20px;margin:0;
-    font-family:var(--mono);font-size:11.5px;line-height:1.65;overflow-x:auto;
-  }
-  pre .k{color:#8ecae6}
-  pre .s{color:#a8d5a2}
-  pre .n{color:#f0b429}
-  pre .c{color:#5c7a83;font-style:italic}
+  /* ── split (code) ── */
+  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(26px,3.6vw,68px);align-items:center}
+  .label{font-size:clamp(9.5px,.78vw,11.5px);font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 14px}
+  .label.orange{color:var(--orange)}
+  pre{background:#0f3038;color:#d7e6ea;border-radius:12px;padding:clamp(20px,2.2vw,32px);margin:0;
+    font-family:var(--mono);font-size:clamp(11.5px,.95vw,15px);line-height:1.7;overflow-x:auto}
+  pre .k{color:#8ecae6} pre .s{color:#a8d5a2} pre .n{color:#f0b429}
   .ann{margin:0;padding:0;list-style:none}
-  .ann li{border-top:1px solid var(--card-edge);padding:13px 0}
+  .ann li{border-top:1px solid var(--edge);padding:clamp(15px,2.2vh,26px) 0}
   .ann li:first-child{border-top:none;padding-top:0}
-  .ann code{font-family:var(--mono);font-size:12px;background:var(--card);padding:2px 6px;border-radius:4px;color:var(--deep);font-weight:600}
-  .ann .txt{font-size:13px;line-height:1.5;margin-top:6px;display:block}
+  .ann code{font-family:var(--mono);font-size:clamp(11.5px,.92vw,14px);background:var(--card);
+    padding:4px 9px;border-radius:5px;color:var(--deep);font-weight:600}
+  section.tint .ann code{background:var(--paper)}
+  .ann .txt{font-size:clamp(13.5px,1.08vw,17px);line-height:1.45;margin-top:9px;display:block}
 
-  /* ---- need-from-you chip ---- */
-  .need{background:#fff;border:1px dashed var(--card-edge);border-radius:6px;padding:11px 14px;margin-top:auto;margin-block-start:auto}
-  .need b{display:block;font-size:9.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
-  .need span{font-size:12.5px;line-height:1.45;color:var(--body)}
+  .need{border-top:1px solid var(--edge);margin-top:auto;padding-top:clamp(13px,1.8vh,20px)}
+  .need b{display:block;font-size:clamp(9px,.72vw,10.5px);font-weight:900;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+  .need span{font-size:clamp(12.5px,1vw,15.5px);line-height:1.42}
 
-  /* ---- reasons ---- */
+  /* ── reasons ── */
   .reasons{margin:0;padding:0;list-style:none}
-  .reasons li{display:grid;grid-template-columns:62px 1fr;gap:22px;align-items:start;
-    border-top:1px solid var(--card-edge);padding:19px 0}
-  .reasons li:last-child{border-bottom:1px solid var(--card-edge)}
-  .reasons .mk{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--card-edge);line-height:.9}
-  .reasons h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--deep);margin:0 0 6px;line-height:1.2}
-  .reasons p{font-size:13.5px;line-height:1.55;margin:0;color:var(--body)}
+  .reasons li{display:grid;grid-template-columns:clamp(58px,5.5vw,100px) 1fr;gap:clamp(18px,2.4vw,44px);
+    align-items:baseline;border-top:1px solid rgba(198,221,226,.18);padding:clamp(22px,3.4vh,42px) 0}
+  .reasons li:last-child{border-bottom:1px solid rgba(198,221,226,.18)}
+  .reasons .mk{font-family:var(--serif);font-size:clamp(32px,3.6vw,60px);font-weight:700;
+    color:rgba(198,221,226,.26);line-height:.85}
+  .reasons h3{font-family:var(--serif);font-size:clamp(20px,2vw,32px);font-weight:700;color:#fff;margin:0 0 9px;line-height:1.14}
+  .reasons p{font-size:clamp(14px,1.2vw,19px);line-height:1.45;margin:0;color:#a9cad2;max-width:64ch}
 
-  /* ---- two column lists ---- */
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
-  .cols .col{background:var(--card);border-radius:8px;padding:22px 24px}
-  .cols .col.b{background:#fff;border:1px solid var(--card-edge)}
-  .cols h3{font-size:10.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--teal);margin:0 0 15px}
+  /* ── two columns ── */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.6vw,46px)}
+  .cols .col{background:var(--card);border-radius:12px;padding:clamp(22px,2.4vw,36px)}
+  section.tint .cols .col{background:var(--paper)}
+  .cols .col.b{background:transparent;border:1px dashed var(--edge)}
+  .cols h3{font-size:clamp(9.5px,.78vw,11.5px);font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 18px}
   .cols .col.b h3{color:var(--orange)}
   .cols ul{margin:0;padding:0;list-style:none}
-  .cols li{font-size:13.5px;line-height:1.5;padding:9px 0 9px 17px;position:relative;color:var(--body)}
-  .cols li:before{content:"";position:absolute;left:0;top:16px;width:6px;height:6px;border-radius:50%;background:var(--teal)}
+  .cols li{font-size:clamp(14px,1.2vw,19px);line-height:1.42;padding:11px 0 11px 21px;position:relative}
+  .cols li:before{content:"";position:absolute;left:0;top:20px;width:8px;height:8px;border-radius:50%;background:var(--teal)}
   .cols .col.b li:before{background:var(--orange)}
-  .cols li b{color:var(--deep);font-weight:700}
 
-  /* ---- nav ---- */
-  .nav{position:fixed;right:16px;bottom:14px;display:flex;gap:6px;align-items:center;
-    background:rgba(255,255,255,.96);border:1px solid var(--card-edge);border-radius:99px;
-    padding:5px 7px;box-shadow:0 2px 12px rgba(15,61,76,.12);z-index:60}
+  /* ── nav ── */
+  .nav{position:fixed;right:clamp(12px,1.6vw,28px);bottom:clamp(12px,1.6vw,28px);display:flex;gap:6px;align-items:center;
+    background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border:1px solid var(--edge);
+    border-radius:99px;padding:6px 8px;box-shadow:0 3px 16px rgba(15,61,76,.14);z-index:95}
   .nav button{border:none;background:var(--card);color:var(--deep);cursor:pointer;
-    width:28px;height:28px;border-radius:50%;font-size:15px;line-height:1}
+    width:30px;height:30px;border-radius:50%;font-size:16px;line-height:1}
   .nav button:hover{background:var(--teal);color:#fff}
-  .nav .count{font-family:var(--mono);font-size:11px;color:var(--muted);padding:0 5px;font-weight:600}
+  .nav .count{font-family:var(--mono);font-size:11px;color:var(--muted);padding:0 6px;font-weight:600}
 
   @media (max-width:900px){
-    .slide{aspect-ratio:auto;padding:30px 22px 62px;min-height:auto}
-    .foot{left:22px;right:22px}
-    .rings{display:none}
-    .grid.c4,.grid.c2,.split,.cols,.flow .steps,.band{grid-template-columns:1fr}
-    .band .arrow{width:auto;height:40px;transform:rotate(90deg)}
+    html{scroll-snap-type:none}
+    section{min-height:auto;padding:56px var(--gut) 78px}
+    .grid.c4,.split,.cols,.flow .steps,.band{grid-template-columns:1fr}
+    .band .arrow{width:auto;height:46px;transform:rotate(90deg)}
     .flow .rail{display:none}
-    .row,.rowhead{grid-template-columns:1fr;gap:6px}
-    .rowhead{display:none}
-    .reasons li{grid-template-columns:1fr;gap:6px}
+    .flow .steps{gap:28px}
+    .reasons li{grid-template-columns:1fr;gap:8px}
+    .rings,.hint{display:none}
   }
   @media print{
-    body{background:#fff}
-    .slide{display:block!important;page-break-after:always;box-shadow:none;margin:0;width:100%;border-radius:0}
-    .nav{display:none}
+    #bar,.nav,.hint{display:none}
+    section{min-height:auto;page-break-after:always;padding:36px 44px 54px}
   }
 </style>
 </head>
 <body>
 
-<!-- ══ 1 · TITLE ══ -->
-<section class="slide dark active">
-  <svg class="rings" viewBox="0 0 640 640" aria-hidden="true">
-    <circle cx="380" cy="260" r="300" fill="#15566a"/>
-    <circle cx="380" cy="260" r="215" fill="#1b6a80"/>
-    <circle cx="380" cy="260" r="130" fill="#3d7b88" opacity=".85"/>
+<div id="bar"></div>
+
+<!-- ══ 1 ══ -->
+<section id="s1" class="dark">
+  <svg class="rings" viewBox="0 0 940 940" aria-hidden="true">
+    <circle cx="540" cy="390" r="460" fill="#15566a"/>
+    <circle cx="540" cy="390" r="325" fill="#1b6a80"/>
+    <circle cx="540" cy="390" r="195" fill="#3d7b88" opacity=".85"/>
   </svg>
-  <div class="title-wrap">
+  <div class="inner">
     <p class="eyebrow">Extern &times; Cengage <span class="sep">&middot;</span> Product + Tech</p>
     <h1>Integration: Phase 1 and Phase 2</h1>
-    <p class="title-sub">How a spring 2027 pilot runs on what both of us already have, and what a deeper integration would involve once it has.</p>
+    <p class="title-sub">A spring pilot needs nothing built. Integration comes after.</p>
     <div class="title-by">
       <div class="who">Jay Wadhwani &nbsp;&middot;&nbsp; Product, Extern</div>
-      <div class="when">Prepared for Vijay Panchakshari and Allie Kefalas &nbsp;&middot;&nbsp; September 2026</div>
+      <div class="when">For Vijay Panchakshari and Allie Kefalas &nbsp;&middot;&nbsp; September 2026</div>
     </div>
   </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">1</span></div>
+  <div class="hint">Scroll<span class="chev">&darr;</span></div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">01</span></div>
 </section>
 
-<!-- ══ 2 · POSITION ══ -->
-<section class="slide">
-  <p class="eyebrow">The position</p>
-  <p class="statement">A spring pilot needs <em>no integration work</em> on either side. The deeper integration is worth scoping together once a cohort has actually run.</p>
-  <div class="band">
-    <div class="ph">
-      <p class="when">Phase 1 &nbsp;&middot;&nbsp; Spring 2027</p>
-      <p class="what">Run a student cohort</p>
-      <ul>
-        <li>Instructor selects students, roster comes to us</li>
-        <li>We provision accounts, students start</li>
-        <li>Instructor reporting every two weeks</li>
-        <li>Competency mapping shared as a matrix</li>
-      </ul>
-    </div>
-    <div class="arrow">&#10230;</div>
-    <div class="ph two">
-      <p class="when">Phase 2 &nbsp;&middot;&nbsp; After the pilot</p>
-      <p class="what">Scope integration on real usage</p>
-      <ul>
-        <li>Federated identity</li>
-        <li>Catalog API for the recommendation engine</li>
-        <li>Competency data exchange, both directions</li>
-        <li>Embedded surface, or LTI</li>
-      </ul>
-    </div>
-  </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">2</span></div>
-</section>
-
-<!-- ══ 3 · WHERE WE STAND ══ -->
-<section class="slide">
-  <p class="eyebrow">Where we stand today</p>
-  <h2>Direct answers to the questions from the call</h2>
-  <p class="dek">Taking these first, so the phasing that follows is read against an accurate picture of the platform.</p>
-  <div class="grid c4">
-    <div class="card">
-      <span class="pill no">Not built</span>
-      <h3>LTI</h3>
-      <p>The standard that lets an outside learning tool plug into a course platform as a native assignment. On our roadmap, not built today.</p>
-    </div>
-    <div class="card">
-      <span class="pill part">Partly</span>
-      <h3>Single sign-on</h3>
-      <p>Google sign-in works today. The federated identity model used across higher ed is on our active roadmap. <b>Single sign-on</b> means a student uses credentials they already have.</p>
-    </div>
-    <div class="card">
-      <span class="pill no">None</span>
-      <h3>Courseware integrations</h3>
-      <p>No automated integrations today. Every institution partner runs on the roster model, which is what lets a pilot start with no engineering project on either side.</p>
-    </div>
-    <div class="card">
-      <span class="pill yes">Compatible</span>
-      <h3>Tech stack</h3>
-      <p>Node.js on AWS, React front end, JSON APIs described with OpenAPI. As Vijay noted, that lines up closely with Cengage.</p>
-    </div>
-  </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">3</span></div>
-</section>
-
-<!-- ══ 4 · PHASE 1 FLOW ══ -->
-<section class="slide">
-  <p class="eyebrow">Phase 1 <span class="sep">&middot;</span> Spring 2027</p>
-  <h2>How students get in</h2>
-  <p class="dek">Four steps, and no engineering on either side, because this is the same flow Extern runs with its university partners today.</p>
-  <div class="flow">
-    <div class="rail"></div>
-    <div class="steps">
-      <div class="s">
-        <div class="num">1</div>
-        <h3>Instructor selects</h3>
-        <p>The instructor chooses which students take an externship, and which programs fit the course.</p>
+<!-- ══ 2 ══ -->
+<section id="s2">
+  <div class="inner">
+    <p class="eyebrow">The position</p>
+    <p class="statement">Run a cohort first. <em>Then</em> integrate.</p>
+    <div class="band">
+      <div class="ph">
+        <p class="when">Phase 1 &nbsp;&middot;&nbsp; Spring 2027</p>
+        <p class="what">Run a student cohort</p>
+        <ul>
+          <li>Roster comes to us</li>
+          <li>We create the accounts</li>
+          <li>Reports go back</li>
+          <li>Nothing gets built</li>
+        </ul>
       </div>
-      <div class="s">
-        <div class="num">2</div>
-        <h3>Roster to Extern</h3>
-        <p>Cengage or the instructor sends the <b>roster</b>, the list of chosen students as names and email addresses.</p>
-      </div>
-      <div class="s">
-        <div class="num">3</div>
-        <h3>We provision</h3>
-        <p>We create those accounts in advance and mark them paid, so the student never meets a paywall.</p>
-      </div>
-      <div class="s">
-        <div class="num">4</div>
-        <h3>Student starts</h3>
-        <p>The student registers with the email on the roster and goes straight into the program.</p>
+      <div class="arrow">&#10230;</div>
+      <div class="ph two">
+        <p class="when">Phase 2 &nbsp;&middot;&nbsp; After the pilot</p>
+        <p class="what">Scope on real usage</p>
+        <ul>
+          <li>Single sign-on</li>
+          <li>Catalog API</li>
+          <li>Competency loop</li>
+          <li>Embedded in MindTap</li>
+        </ul>
       </div>
     </div>
   </div>
-  <div class="callout">
-    <b>The roster is the gate, not the link.</b> A link placed in a course is only a doorway. It carries no access of its own, so it cannot be forwarded to someone without a seat, and anyone arriving without being on the roster sees the standard consumer paywall. It also means instructors never have to manage access themselves.
-  </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">4</span></div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">02</span></div>
 </section>
 
-<!-- ══ 5 · WHAT CENGAGE RECEIVES ══ -->
-<section class="slide">
-  <p class="eyebrow">Phase 1 <span class="sep">&middot;</span> Spring 2027</p>
-  <h2>What Cengage receives</h2>
-  <p class="dek">Four things flow back during the pilot, all available in spring without anything new being built.</p>
-  <div class="rowhead"><span>Item</span><span>What it is</span><span>How it arrives in spring</span></div>
-  <div class="rows">
-    <div class="row">
-      <div class="t">Program catalog</div>
-      <div class="d">The list of externship programs and their attributes: company, subject area, skills, duration, weekly time commitment.</div>
-      <div class="f">A document today. A read-only data feed is available if you would rather ingest it electronically.</div>
-    </div>
-    <div class="row">
-      <div class="t">Program calendar</div>
-      <div class="d">Start and end dates for programs that are scheduled. Programs run on fixed dates, and they recur.</div>
-      <div class="f">Shared document, refreshed as terms are scheduled.</div>
-    </div>
-    <div class="row">
-      <div class="t">Instructor report</div>
-      <div class="d">Engagement, progress, students at risk of falling behind, and completion, for that instructor's section.</div>
-      <div class="f">Every two weeks by email, with a summary view per section.</div>
-    </div>
-    <div class="row">
-      <div class="t">Competency mapping</div>
-      <div class="d">Which NACE competencies each program develops, and the ones we would put in front of instructors first.</div>
-      <div class="f">A matrix document, program by program.</div>
+<!-- ══ 3 ══ -->
+<section id="s3" class="tint">
+  <div class="inner">
+    <p class="eyebrow">Where we stand today</p>
+    <h2>Your four questions, answered</h2>
+    <div class="grid c4">
+      <div class="card">
+        <span class="pill no">Not built</span>
+        <h3>LTI</h3>
+        <p>The standard plug-in for course platforms. On our roadmap.</p>
+      </div>
+      <div class="card">
+        <span class="pill part">Partly</span>
+        <h3>Single sign-on</h3>
+        <p>Google works today. Higher-ed federated identity is next.</p>
+      </div>
+      <div class="card">
+        <span class="pill no">None</span>
+        <h3>Courseware links</h3>
+        <p>No automated integrations. Every partner runs on rosters.</p>
+      </div>
+      <div class="card">
+        <span class="pill yes">Match</span>
+        <h3>Tech stack</h3>
+        <p>Node, React, AWS, JSON. The same as yours.</p>
+      </div>
     </div>
   </div>
-  <div class="callout" style="margin-top:16px">
-    <b>NACE competencies</b> are the standard career-readiness skill framework. Allie identified this as the core metadata Cengage's recommendation engine works from, which makes it the natural handshake between the two systems.
-  </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">5</span></div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">03</span></div>
 </section>
 
-<!-- ══ 6 · CATALOG DATA ══ -->
-<section class="slide">
-  <p class="eyebrow">Phase 1 <span class="sep">&middot;</span> Program metadata</p>
-  <h2>What the catalog data looks like</h2>
-  <p class="dek">If reading a document is the wrong shape for your systems, here is the alternative. One program, as structured data. Read-only, and nothing is required from Cengage engineering to evaluate it.</p>
-  <div class="split">
-    <div>
-      <p class="panel-label">One program from the Extern catalog</p>
+<!-- ══ 4 ══ -->
+<section id="s4">
+  <div class="inner">
+    <p class="eyebrow">Phase 1 <span class="sep">&middot;</span> Spring 2027</p>
+    <h2>How students get in</h2>
+    <div class="flow">
+      <div class="rail"></div>
+      <div class="steps">
+        <div class="s">
+          <div class="num">1</div>
+          <h3>Instructor picks</h3>
+          <p>Chooses the students and the programs that fit the course.</p>
+        </div>
+        <div class="s">
+          <div class="num">2</div>
+          <h3>Roster to us</h3>
+          <p>The <b>roster</b> is just names and emails.</p>
+        </div>
+        <div class="s">
+          <div class="num">3</div>
+          <h3>We open accounts</h3>
+          <p>Created in advance, already paid for.</p>
+        </div>
+        <div class="s">
+          <div class="num">4</div>
+          <h3>Student starts</h3>
+          <p>Signs in with that email. No paywall.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <b>The roster is the gate, not the link.</b> A course link opens the door but grants nothing, so it cannot be passed to someone without a seat.
+    </div>
+  </div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">04</span></div>
+</section>
+
+<!-- ══ 5 ══ -->
+<section id="s5" class="tint">
+  <div class="inner">
+    <p class="eyebrow">Phase 1 <span class="sep">&middot;</span> Spring 2027</p>
+    <h2>What you get back</h2>
+    <div class="grid c4">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
+          <rect x="7" y="6" width="34" height="36" rx="3"/><path d="M14 16h20M14 24h20M14 32h13"/></svg></div>
+        <h3>Catalog</h3>
+        <p>Every program, with skills, length and company.</p>
+        <p class="tag">Document or data feed</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
+          <rect x="6" y="10" width="36" height="32" rx="3"/><path d="M6 20h36M16 6v8M32 6v8"/><circle cx="17" cy="29" r="2.4" fill="#1a6d8e" stroke="none"/><circle cx="31" cy="29" r="2.4" fill="#d9541e" stroke="none"/></svg></div>
+        <h3>Calendar</h3>
+        <p>When each program starts and ends.</p>
+        <p class="tag">Refreshed each term</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
+          <path d="M7 40V8M7 40h34"/><rect x="14" y="26" width="6" height="10" fill="#1a6d8e" stroke="none"/><rect x="24" y="18" width="6" height="18" fill="#1a6d8e" stroke="none"/><rect x="34" y="12" width="6" height="24" fill="#d9541e" stroke="none"/></svg></div>
+        <h3>Instructor report</h3>
+        <p>Who is on track, who is falling behind.</p>
+        <p class="tag">Every two weeks</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
+          <rect x="7" y="7" width="13" height="13" rx="2"/><rect x="28" y="7" width="13" height="13" rx="2" fill="#d9541e" stroke="none"/><rect x="7" y="28" width="13" height="13" rx="2" fill="#1a6d8e" stroke="none"/><rect x="28" y="28" width="13" height="13" rx="2"/></svg></div>
+        <h3>Competency map</h3>
+        <p>The NACE skills each program builds. Your engine's metadata.</p>
+        <p class="tag">Matrix, program by program</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">05</span></div>
+</section>
+
+<!-- ══ 6 ══ -->
+<section id="s6">
+  <div class="inner">
+    <p class="eyebrow">Phase 1 <span class="sep">&middot;</span> Program metadata</p>
+    <h2>The catalog, as data</h2>
+    <div class="split">
+      <div>
+        <p class="label">One program</p>
 <pre>{
-  <span class="k">"id"</span>: <span class="n">1482</span>,
   <span class="k">"title"</span>: <span class="s">"Data Analytics Externship"</span>,
   <span class="k">"company"</span>: <span class="s">"Breaking Games"</span>,
   <span class="k">"category"</span>: <span class="s">"Data &amp; Analytics"</span>,
-  <span class="k">"tags"</span>: {
-    <span class="k">"skills"</span>: [<span class="s">"SQL"</span>, <span class="s">"Data visualisation"</span>],
-    <span class="k">"topics"</span>: [<span class="s">"Consumer insights"</span>, <span class="s">"Pricing"</span>],
-    <span class="k">"categories"</span>: [<span class="s">"Business"</span>, <span class="s">"Analytics"</span>]
-  },
+  <span class="k">"skills"</span>: [<span class="s">"SQL"</span>, <span class="s">"Visualisation"</span>],
   <span class="k">"start_date"</span>: <span class="s">"2027-01-19"</span>,
   <span class="k">"end_date"</span>: <span class="s">"2027-03-30"</span>,
-  <span class="k">"weeks_duration"</span>: <span class="n">10</span>,
-  <span class="k">"time_commitment"</span>: <span class="s">"5-7 hours per week"</span>,
-  <span class="k">"status"</span>: <span class="s">"UPCOMING"</span>,
-  <span class="k">"updated_at"</span>: <span class="s">"2026-09-14T11:02:00Z"</span>
+  <span class="k">"weeks"</span>: <span class="n">10</span>,
+  <span class="k">"time_commitment"</span>: <span class="s">"5-7 hrs/week"</span>,
+  <span class="k">"updated_at"</span>: <span class="s">"2026-09-14"</span>
 }</pre>
-    </div>
-    <div>
-      <p class="panel-label orange">Three notes for the architecture conversation</p>
-      <ul class="ann">
-        <li>
-          <code>start_date</code> <code>end_date</code>
-          <span class="txt">Answers the question about fixed versus ongoing. Programs run on fixed dates and they recur, so a recommendation can be timed against a course's own calendar.</span>
-        </li>
-        <li>
-          <code>updated_at</code>
-          <span class="txt">Lets you pull only what has changed rather than refetching the whole catalog on every sync.</span>
-        </li>
-        <li>
-          <code>competencies</code>
-          <span class="txt">The natural next field here. That mapping arrives as a matrix in Phase&nbsp;1, and becomes a live exchange in Phase&nbsp;2 rather than a document.</span>
-        </li>
-      </ul>
+      </div>
+      <div>
+        <p class="label orange">Three things to note</p>
+        <ul class="ann">
+          <li><code>start_date</code> <code>end_date</code>
+            <span class="txt">Fixed dates, and they recur. So a recommendation can be timed to the course.</span></li>
+          <li><code>updated_at</code>
+            <span class="txt">Pull only what changed. No full refetch.</span></li>
+          <li><code>competencies</code>
+            <span class="txt">The next field. A matrix in Phase 1, live data in Phase 2.</span></li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">6</span></div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">06</span></div>
 </section>
 
-<!-- ══ 7 · PHASE 2 ══ -->
-<section class="slide">
-  <p class="eyebrow orange">Phase 2 <span class="sep">&middot;</span> After the pilot</p>
-  <h2>Four workstreams, and what each needs from Cengage</h2>
-  <p class="dek">This is the map, not a schedule. Each one depends on a decision that has not been made yet, which is why we have deliberately left timelines off.</p>
-  <div class="grid c4">
-    <div class="card light">
-      <div class="dot orange">1</div>
-      <h3>Identity</h3>
-      <p>Students arrive already signed in, with no separate Extern password, built on the federated identity standards higher ed already uses.</p>
-      <div class="need"><b>What we need from you</b><span>Which identity provider, and whether students authenticate as Cengage or as their institution.</span></div>
-    </div>
-    <div class="card light">
-      <div class="dot orange">2</div>
-      <h3>Catalog API</h3>
-      <p>Your recommendation engine asks ours a question and gets back exactly the programs that fit, filtered by department and by when the course runs.</p>
-      <div class="need"><b>What we need from you</b><span>Which filters your engine queries on, and the volume of calls to expect.</span></div>
-    </div>
-    <div class="card light">
-      <div class="dot orange">3</div>
-      <h3>Competency exchange</h3>
-      <p>Competency data moving both directions: what a program develops on the way in, what a student demonstrated on the way out. The loop Allie described.</p>
-      <div class="need"><b>What we need from you</b><span>Your competency schema, and how you represent a student's readiness today.</span></div>
-    </div>
-    <div class="card light">
-      <div class="dot orange">4</div>
-      <h3>Surface</h3>
-      <p>Whether Extern appears embedded inside MindTap, or launches as a linked tool through LTI. A product and UX decision before it is an engineering one.</p>
-      <div class="need"><b>What we need from you</b><span>The outcome of your UX research. The authentication approach follows from it, as Vijay noted.</span></div>
+<!-- ══ 7 ══ -->
+<section id="s7" class="tint">
+  <div class="inner">
+    <p class="eyebrow orange">Phase 2 <span class="sep">&middot;</span> After the pilot</p>
+    <h2>Four workstreams</h2>
+    <p class="sub">The map, not a schedule. Each one waits on a decision that is still open.</p>
+    <div class="grid c4">
+      <div class="card light">
+        <div class="dot">1</div>
+        <h3>Identity</h3>
+        <p>Students arrive already signed in. No Extern password.</p>
+        <div class="need"><b>From you</b><span>Which identity provider.</span></div>
+      </div>
+      <div class="card light">
+        <div class="dot">2</div>
+        <h3>Catalog API</h3>
+        <p>Your engine asks, ours answers. Filtered by department and date.</p>
+        <div class="need"><b>From you</b><span>Which filters you query on.</span></div>
+      </div>
+      <div class="card light">
+        <div class="dot">3</div>
+        <h3>Competency loop</h3>
+        <p>Skills in, skills demonstrated out. The loop Allie described.</p>
+        <div class="need"><b>From you</b><span>Your competency schema.</span></div>
+      </div>
+      <div class="card light">
+        <div class="dot">4</div>
+        <h3>Surface</h3>
+        <p>Embedded inside MindTap, or launched through LTI.</p>
+        <div class="need"><b>From you</b><span>Your UX research outcome.</span></div>
+      </div>
     </div>
   </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">7</span></div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">07</span></div>
 </section>
 
-<!-- ══ 8 · WHY THIS ORDER ══ -->
-<section class="slide">
-  <p class="eyebrow">Why this order</p>
-  <h2>Pilot first, then integrate</h2>
-  <p class="dek">The usual publisher playbook is to complete the integration before anything launches. We would rather not, and the reasons are practical.</p>
-  <ol class="reasons">
-    <li>
-      <span class="mk">01</span>
-      <div>
-        <h3>Integration built ahead of demand gets built against assumptions</h3>
-        <p>Neither side knows yet which programs instructors actually recommend, how students move through them, or where the workflow creates friction. A spring cohort answers all three, so scoping afterwards means scoping against real usage rather than a best guess.</p>
-      </div>
-    </li>
-    <li>
-      <span class="mk">02</span>
-      <div>
-        <h3>The surface decision drives the identity decision</h3>
-        <p>This was Vijay's own point on the call. Whether Extern is embedded in MindTap or launched as a linked tool changes how authentication has to work. Until the UX research settles that question, building the authentication layer means guessing at the answer.</p>
-      </div>
-    </li>
-    <li>
-      <span class="mk">03</span>
-      <div>
-        <h3>Nothing in Phase 1 has to be unwound</h3>
-        <p>The roster model produces the same enrolments, the same progress data and the same competency mapping a deeper integration would automate. Phase&nbsp;1 is not a throwaway path. It is the same journey, with people in the loop where systems will later be.</p>
-      </div>
-    </li>
-  </ol>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">8</span></div>
+<!-- ══ 8 ══ -->
+<section id="s8" class="dark">
+  <div class="inner">
+    <p class="eyebrow">Why this order</p>
+    <h2>Pilot first, then integrate</h2>
+    <ol class="reasons">
+      <li>
+        <span class="mk">01</span>
+        <div>
+          <h3>Build before proof and you build on guesses</h3>
+          <p>A spring cohort tells us which programs instructors pick and where students get stuck.</p>
+        </div>
+      </li>
+      <li>
+        <span class="mk">02</span>
+        <div>
+          <h3>The surface decides the sign-on</h3>
+          <p>Your point, Vijay. Embedded or linked changes how authentication has to work.</p>
+        </div>
+      </li>
+      <li>
+        <span class="mk">03</span>
+        <div>
+          <h3>Nothing gets thrown away</h3>
+          <p>Phase 1 produces the same data Phase 2 automates. Same journey, people instead of systems.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">08</span></div>
 </section>
 
-<!-- ══ 9 · NEXT ══ -->
-<section class="slide">
-  <p class="eyebrow">Next</p>
-  <h2>What we owe each other</h2>
-  <p class="dek">Carried forward from the call, so nothing sits waiting on an unstated assumption.</p>
-  <div class="cols">
-    <div class="col">
-      <h3>What Extern is preparing</h3>
-      <ul>
-        <li><b>NACE competency matrix</b> &mdash; program by program, with the competencies we would put in front of instructors first.</li>
-        <li><b>Spring pilot outline</b> &mdash; one page on how the cohort runs, plus a sample instructor report.</li>
-        <li><b>Program calendar</b> &mdash; scheduled start dates for upcoming terms.</li>
-        <li><b>A demo</b> &mdash; the instructor experience and the student experience, walked through end to end.</li>
-      </ul>
-    </div>
-    <div class="col b">
-      <h3>What would help from Cengage</h3>
-      <ul>
-        <li><b>A look at MindTap</b> &mdash; so the surface conversation is grounded in what students and instructors actually see.</li>
-        <li><b>Your competency schema</b> &mdash; the format your engine expects, so our mapping lands in a shape you can use.</li>
-        <li><b>Which products and courses</b> &mdash; the titles in play for a spring cohort.</li>
-        <li><b>Your bar for expansion</b> &mdash; what the spring cohort would need to show to justify going further.</li>
-      </ul>
+<!-- ══ 9 ══ -->
+<section id="s9">
+  <div class="inner">
+    <p class="eyebrow">Next</p>
+    <h2>What we owe each other</h2>
+    <div class="cols">
+      <div class="col">
+        <h3>Extern is preparing</h3>
+        <ul>
+          <li>The NACE competency matrix</li>
+          <li>A one-page spring pilot outline</li>
+          <li>A sample instructor report</li>
+          <li>A demo of both experiences</li>
+        </ul>
+      </div>
+      <div class="col b">
+        <h3>Helpful from Cengage</h3>
+        <ul>
+          <li>A look at MindTap</li>
+          <li>Your competency schema</li>
+          <li>Which courses are in play</li>
+          <li>Your bar for expanding</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="foot"><span>Extern &times; Cengage &middot; Integration Phasing</span><span class="num">9</span></div>
+  <div class="foot"><span>Extern &times; Cengage</span><span class="num">09</span></div>
 </section>
 
 <div class="nav">
-  <button id="prev" aria-label="Previous slide">&#8249;</button>
+  <button id="prev" aria-label="Previous section">&#8249;</button>
   <span class="count"><span id="cur">1</span>&#8202;/&#8202;<span id="tot">9</span></span>
-  <button id="next" aria-label="Next slide">&#8250;</button>
+  <button id="next" aria-label="Next section">&#8250;</button>
 </div>
 
 <script>
 (function(){
-  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  var i = 0, cur = document.getElementById('cur');
-  document.getElementById('tot').textContent = slides.length;
-  function show(n){
-    i = Math.max(0, Math.min(slides.length - 1, n));
-    slides.forEach(function(s, idx){ s.classList.toggle('active', idx === i); });
-    cur.textContent = i + 1;
-    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
-    window.scrollTo(0, 0);
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section'));
+  var bar = document.getElementById('bar'), cur = document.getElementById('cur');
+  document.getElementById('tot').textContent = secs.length;
+  function idx(){
+    var mid = window.scrollY + window.innerHeight / 2, best = 0;
+    secs.forEach(function(s,i){ if (s.offsetTop <= mid) best = i; });
+    return best;
   }
-  document.getElementById('next').addEventListener('click', function(){ show(i + 1); });
-  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); });
+  function go(n){
+    n = Math.max(0, Math.min(secs.length - 1, n));
+    window.scrollTo({ top: secs[n].offsetTop, behavior: 'smooth' });
+  }
+  function paint(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    cur.textContent = idx() + 1;
+  }
+  document.getElementById('next').addEventListener('click', function(){ go(idx() + 1); });
+  document.getElementById('prev').addEventListener('click', function(){ go(idx() - 1); });
   document.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
-    if (e.key === 'ArrowLeft'  || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
-    if (e.key === 'Home') { e.preventDefault(); show(0); }
-    if (e.key === 'End')  { e.preventDefault(); show(slides.length - 1); }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(idx() + 1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')   { e.preventDefault(); go(idx() - 1); }
+    if (e.key === 'Home') { e.preventDefault(); go(0); }
+    if (e.key === 'End')  { e.preventDefault(); go(secs.length - 1); }
   });
-  var start = parseInt((location.hash || '').replace('#',''), 10);
-  show(isNaN(start) ? 0 : start - 1);
+  window.addEventListener('scroll', paint, { passive:true });
+  window.addEventListener('resize', paint);
+  paint();
 })();
 </script>
 </body>
