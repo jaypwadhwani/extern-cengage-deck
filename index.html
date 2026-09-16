@@ -308,17 +308,17 @@
       <div class="card">
         <span class="pill no">Not built</span>
         <h3>LTI</h3>
-        <p><b>Learning Tools Interoperability.</b> The standard for plugging an outside tool into a course platform. On our roadmap.</p>
+        <p><b>Learning Tools Interoperability.</b> The standard way an outside tool plugs into a course platform. On our roadmap.</p>
       </div>
       <div class="card">
         <span class="pill no">Consumer only</span>
         <h3>Single sign-on</h3>
-        <p>We have Google login, which is not the model higher ed runs on. Institutional sign-on comes with the Phase&nbsp;2 work below.</p>
+        <p>We have Google login. Higher ed does not use it. Institutional sign-on comes in Phase&nbsp;2.</p>
       </div>
       <div class="card">
         <span class="pill no">None</span>
         <h3>Automated course integrations</h3>
-        <p>No roster sync, no grade passback. Every partner runs on a student list instead.</p>
+        <p>No roster sync, no grades flowing back. Every partner runs on a student list.</p>
       </div>
       <div class="card">
         <span class="pill yes">Match</span>
@@ -361,8 +361,8 @@
       </div>
     </div>
     <div class="callout">
-      <b>The student list is the gate, not the link.</b> A course link opens the door but grants nothing, so it cannot be passed to someone without a seat.<br><br>
-      <b>Students see the whole catalog.</b> The instructor recommends two to four programs that fit the course, and an Extern program manager holds the cohort to them. That combination is what drives 80%+ completion at our university partners.
+      <b>The list is what grants access, not the link.</b> A course link just points to Extern. It opens nothing on its own.<br><br>
+      <b>Students see the whole catalog.</b> The instructor picks two to four programs that fit the course and points students to those. That is how our university partners run it today.
     </div>
   </div>
   <div class="foot"><span>Extern &times; Cengage</span><span class="num">04</span></div>
@@ -399,11 +399,11 @@
         <div class="ico"><svg viewBox="0 0 48 48" fill="none" stroke="#1a6d8e" stroke-width="2.2" stroke-linecap="round">
           <rect x="7" y="7" width="13" height="13" rx="2"/><rect x="28" y="7" width="13" height="13" rx="2" fill="#d9541e" stroke="none"/><rect x="7" y="28" width="13" height="13" rx="2" fill="#1a6d8e" stroke="none"/><rect x="28" y="28" width="13" height="13" rx="2"/></svg></div>
         <h3>Competency map</h3>
-        <p>The career-readiness skills each program builds, mapped to the NACE framework.</p>
+        <p>The career skills each program builds, mapped to NACE.</p>
         <p class="tag">Matrix, program by program</p>
       </div>
     </div>
-    <p class="jnote" style="margin-top:clamp(18px,2.6vh,32px);margin-bottom:0"><b>NACE</b> is the National Association of Colleges and Employers. Its career-readiness competencies are the framework Allie identified as your engine&rsquo;s core metadata.</p>
+    <p class="jnote" style="margin-top:clamp(18px,2.6vh,32px);margin-bottom:0"><b>NACE</b> is the National Association of Colleges and Employers. Allie said their competencies are what your engine runs on.</p>
   </div>
   <div class="foot"><span>Extern &times; Cengage</span><span class="num">05</span></div>
 </section>
@@ -413,7 +413,7 @@
   <div class="inner">
     <p class="eyebrow"><span class="chip">Phase 1</span> Program metadata</p>
     <h2>The catalog, as data</h2>
-    <p class="note">Available for the pilot. A read-only endpoint returning currently active programs, in this shape, if you would rather ingest the catalog than read it.</p>
+    <p class="note">Available for the pilot. A read-only endpoint with our active programs, if you would rather pull the catalog than read it.</p>
     <div class="split">
       <div>
         <p class="label">One active program</p>
@@ -433,11 +433,11 @@
         <p class="label orange">Three things to note</p>
         <ul class="ann">
           <li><code>start_date</code> <code>end_date</code>
-            <span class="txt">Each run has fixed dates, and runs open continuously. So a recommendation can be timed to a course.</span></li>
+            <span class="txt">Each run has fixed dates and new runs open all the time. So you can time a recommendation to a course.</span></li>
           <li><code>updated_at</code>
             <span class="txt">Pull only what changed. No full refetch.</span></li>
           <li><code>competencies</code>
-            <span class="txt">The next field. A matrix in Phase 1, live data in Phase 2.</span></li>
+            <span class="txt">The next field to add. A spreadsheet in Phase 1, live data in Phase 2.</span></li>
         </ul>
       </div>
     </div>
@@ -450,7 +450,7 @@
   <div class="inner">
     <p class="eyebrow orange"><span class="chip two">Phase 2</span> The longer-term goal</p>
     <h2>Put the externship inside MindTap</h2>
-    <p class="note">Allie&rsquo;s point on the call: students already go from the LMS into MindTap, and Extern makes it a third platform. Phase&nbsp;2 removes that hop by embedding the externship in your page, so the student never leaves Cengage.</p>
+    <p class="note">Allie&rsquo;s point on the call. Students go from the LMS to MindTap to Extern. That is three platforms. Phase&nbsp;2 puts the externship in your page, so they stop at two.</p>
 
     <div class="journey">
       <div class="jrow">
@@ -476,24 +476,24 @@
         </div>
       </div>
     </div>
-    <p class="jnote">Canvas, Blackboard, or whichever platform the school already runs. Students pass through it before reaching MindTap.</p>
+    <p class="jnote">Canvas, Blackboard, or whatever the school already uses. Students go through it before MindTap.</p>
 
     <div class="needs">
       <div class="n">
         <h4>Shared sign-in</h4>
-        <p>Students arrive already authenticated through your identity provider, with no separate Extern password.</p>
+        <p>Students are already logged in. No Extern password to create.</p>
       </div>
       <div class="n">
         <h4>Catalog feed</h4>
-        <p>So the right program appears in the right course, chosen by your engine rather than by browsing.</p>
+        <p>Your engine picks the program. It shows up in the right course.</p>
       </div>
       <div class="n">
         <h4>Enrolment</h4>
-        <p>Your system places a named student into a named program directly. This is what replaces the student list.</p>
+        <p>Your system puts a student straight into a program. This replaces the student list.</p>
       </div>
       <div class="n">
         <h4>Skills data back</h4>
-        <p>What the student demonstrated returns to your engine, closing the loop you described.</p>
+        <p>The skills they showed come back to your engine.</p>
       </div>
     </div>
   </div>
@@ -510,21 +510,21 @@
         <span class="mk">01</span>
         <div>
           <h3>Build before proof and you build on guesses</h3>
-          <p>A spring cohort tells us which programs instructors pick and where students get stuck.</p>
+          <p>A spring cohort shows us which programs instructors pick and where students get stuck.</p>
         </div>
       </li>
       <li>
         <span class="mk">02</span>
         <div>
           <h3>Where it lives decides how they log in</h3>
-          <p>Your point, Vijay. Embedded or linked changes how authentication has to work.</p>
+          <p>Your point, Vijay. Embedded or linked changes how the log-in has to work.</p>
         </div>
       </li>
       <li>
         <span class="mk">03</span>
         <div>
           <h3>Nothing gets thrown away</h3>
-          <p>Phase 1 produces the same data Phase 2 automates. Same journey, people instead of systems.</p>
+          <p>Phase 1 creates the same data Phase 2 automates. People do it now, systems do it later.</p>
         </div>
       </li>
     </ol>
